@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "EventSpace",
+    "slug": "EventSpace",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/Logo.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/Logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.miken29c.ESAPK"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/Logo.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Outfit/Outfit-Thin.ttf",
+            "./assets/fonts/Outfit/Outfit-SemiBold.ttf",
+            "./assets/fonts/Outfit/Outfit-Regular.ttf",
+            "./assets/fonts/Outfit/Outfit-Medium.ttf",
+            "./assets/fonts/Outfit/Outfit-Light.ttf",
+            "./assets/fonts/Outfit/Outfit-ExtraLight.ttf",
+            "./assets/fonts/Outfit/Outfit-ExtraBold.ttf",
+            "./assets/fonts/Outfit/Outfit-Bold.ttf",
+            "./assets/fonts/Outfit/Outfit-Black.ttf"
+          ]
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3578afc1-d522-4dd5-a0bb-19345b515861"
+      }
+    }
+  }
+}
