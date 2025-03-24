@@ -90,7 +90,7 @@ export default function registerC2() {
     <View className="bg-[#C3B6E3] w-full h-full items-center justify-center">
       <View className="bg-white rounded-[33px] w-96 px-4 items-center py-10">
         <View className="flex flex-row items-center">
-          <Image source={require("../../assets/images/Logo.png")} />
+          <Image source={require("../assets/images/Logo.png")} />
           <Text className="pl-3 font-outfit-semibold text-5xl leading-tight">
             EventSpace
           </Text>

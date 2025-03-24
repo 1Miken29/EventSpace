@@ -73,7 +73,7 @@ export default function SignInC1() {
     setErrors(newErrors);
     
     if (Object.keys(newErrors).length === 0) {
-      router.push("/Cliente/registerC2");
+      router.push("register2");
     }
   };
 
@@ -81,7 +81,7 @@ export default function SignInC1() {
     <View className="bg-[#C3B6E3] w-full h-full items-center justify-center">
       <View className="bg-white rounded-[33px] w-96 px-4 items-center py-10">
         <View className="flex flex-row items-center">
-          <Image source={require("../../assets/images/Logo.png")} />
+          <Image source={require("../assets/images/Logo.png")} />
           <Text className="pl-3 font-outfit-semibold text-5xl leading-tight">
             EventSpace
           </Text>
@@ -94,7 +94,7 @@ export default function SignInC1() {
           onChangeText={(text) => handleNameChange(text, 'nombre')}
         />
         
-        <View className="flex flex-row my-2">
+        <View className="flex flex-row my-2 gap-2">
           <View className="flex-1">
             <TextInput
               className={`h-14 w-full border ${errors.apellidoPaterno ? 'border-red-500 text-red-500' : 'border-[#C4C4C4]'} rounded-xl p-3 font-outfit text-xl`}
@@ -130,7 +130,7 @@ export default function SignInC1() {
         </TouchableOpacity>
         <Text className="font-outfit-medium text-xl">
             ¿Ya tienes cuenta?{" "}
-            <Link href="/Cliente/sign-inC1" className="font-outfit-bold">
+            <Link href="sign-in" className="font-outfit-bold">
                 Inicia Sesión
             </Link>
         </Text>
