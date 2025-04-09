@@ -32,7 +32,7 @@ const UserDataForm = () => {
   const [alertMessage, setAlertMessage] = useState([]); // Initialize as an array
   const [showAlert, setShowAlert] = useState(false); // Ensure showAlert is defined
   const alertOpacity = useState(new Animated.Value(0))[0]; // Ensure alertOpacity is defined
-  const [isProfilePressed, setIsProfilePressed] = useState(false); // State to track press
+  const [selectedTab, setSelectedTab] = useState("profile"); // Track the selected tab
 
   useEffect(() => {
       if (showAlert) {
@@ -400,48 +400,105 @@ const UserDataForm = () => {
             borderTopWidth: 1,
           }}
         >
-          <View className="flex-column justify-between ">
-              <Image
-              source={require('../../assets/images/home.png')}
-              style={{ width: 30, height: 30 }}
-              tintColor="#666876"
-              />
-              <Text className="text-[#666876] font-outfit-light text-center text-sm">Inicio</Text>
-          </View>
-          <View className="flex-column justify-between ">
-              <Image
-              source={require('../../assets/images/search.png')}
-              style={{ width: 30, height: 30 }}
-              tintColor="#666876"
-              />
-              <Text className="text-[#666876] font-outfit-light text-center text-sm">Buscar</Text>
-          </View>
+          {/* Home Button */}
           <TouchableOpacity
             onPress={() => {
-              setIsProfilePressed(true); // Change color on press
-              setTimeout(() => setIsProfilePressed(false), 200); // Reset color after 200ms
-              navigation.navigate('user'); // Navigate to user.jsx
+              setSelectedTab("home"); // Set selected tab to "home"
+              navigation.navigate("inicio"); // Navigate to inicio.jsx
             }}
-            className="flex-column justify-between"
+            style={{
+              alignItems: 'center', // Center the icon and text
+              justifyContent: 'center',
+            }}
           >
             <Image
-              source={require('../../assets/images/p.png')}
+              source={
+                selectedTab === "home"
+                  ? require('../../assets/images/Fhome.png') // Replace with Fhome.png when selected
+                  : require('../../assets/images/home.png') // Default home icon
+              }
               style={{
-                width: 30,
-                height: 30,
-                tintColor: isProfilePressed ? '#8B5DFF' : '#666876', // Change color dynamically
+                width: 24, // Match size from inicio.jsx
+                height: 24, // Match size from inicio.jsx
+                tintColor: selectedTab === "home" ? "#8B5DFF" : "#666876", // Change color dynamically
               }}
             />
             <Text
-              className={`font-outfit-light text-center text-sm ${
-                isProfilePressed ? 'text-[#8B5DFF]' : 'text-[#666876]'
-              }`}
+              style={{
+                color: selectedTab === "home" ? "#8B5DFF" : "#666876", // Change text color dynamically
+                fontSize: 12,
+                textAlign: "center",
+                marginTop: 4, // Add spacing between icon and text
+              }}
+            >
+              Inicio
+            </Text>
+          </TouchableOpacity>
+
+          {/* Search Button */}
+          <TouchableOpacity
+            onPress={() => setSelectedTab("search")} // Set selected tab to "search"
+            style={{
+              alignItems: 'center', // Center the icon and text
+              justifyContent: 'center',
+            }}
+          >
+            <Image
+              source={require('../../assets/images/search.png')} // Default search icon
+              style={{
+                width: 24, // Match size from inicio.jsx
+                height: 24, // Match size from inicio.jsx
+                tintColor: selectedTab === "search" ? "#8B5DFF" : "#666876", // Change color dynamically
+              }}
+            />
+            <Text
+              style={{
+                color: selectedTab === "search" ? "#8B5DFF" : "#666876", // Change text color dynamically
+                fontSize: 12,
+                textAlign: "center",
+                marginTop: 4, // Add spacing between icon and text
+              }}
+            >
+              Buscar
+            </Text>
+          </TouchableOpacity>
+
+          {/* Profile Button */}
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTab("profile"); // Set selected tab to "profile"
+            }}
+            style={{
+              alignItems: 'center', // Center the icon and text
+              justifyContent: 'center',
+            }}
+          >
+            <Image
+              source={
+                selectedTab === "profile"
+                  ? require('../../assets/images/p.png') // Replace with p.png when selected
+                  : require('../../assets/images/profile.png') // Default profile icon
+              }
+              style={{
+                width: 24, // Match size from inicio.jsx
+                height: 24, // Match size from inicio.jsx
+                tintColor: selectedTab === "profile" ? "#8B5DFF" : "#666876", // Change color dynamically
+              }}
+            />
+            <Text
+              style={{
+                color: selectedTab === "profile" ? "#8B5DFF" : "#666876", // Change text color dynamically
+                fontSize: 12,
+                textAlign: "center",
+                marginTop: 4, // Add spacing between icon and text
+              }}
             >
               Perfil
             </Text>
           </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    
   );
 };
 

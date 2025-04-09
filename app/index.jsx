@@ -21,7 +21,7 @@ export default function Index() {
         </Text>
         <TouchableOpacity
           className="border border-[#C4C4C4] my-2 py-2 px-6 rounded-full active:"
-          onPress={() => router.push("/registerP1")}
+          onPress={() => router.push("/inicio")}
         >
           <Text className="font-outfit-medium text-xl my-2">
             Registrate en EventSpace
