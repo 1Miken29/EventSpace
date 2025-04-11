@@ -437,14 +437,21 @@ const UserDataForm = () => {
 
           {/* Search Button */}
           <TouchableOpacity
-            onPress={() => setSelectedTab("search")} // Set selected tab to "search"
+            onPress={() => {
+              setSelectedTab("search"); // Set selected tab to "search"
+              navigation.navigate("Buscar"); // Navigate to the search screen
+            }}
             style={{
               alignItems: 'center', // Center the icon and text
               justifyContent: 'center',
             }}
           >
             <Image
-              source={require('../../assets/images/search.png')} // Default search icon
+              source={
+                selectedTab === "search"
+                  ? require('../../assets/images/Fsearch.png') // Replace with Fsearch.png when selected
+                  : require('../../assets/images/search.png') // Default search icon
+              }
               style={{
                 width: 24, // Match size from inicio.jsx
                 height: 24, // Match size from inicio.jsx
@@ -467,6 +474,7 @@ const UserDataForm = () => {
           <TouchableOpacity
             onPress={() => {
               setSelectedTab("profile"); // Set selected tab to "profile"
+              navigation.navigate("user");
             }}
             style={{
               alignItems: 'center', // Center the icon and text

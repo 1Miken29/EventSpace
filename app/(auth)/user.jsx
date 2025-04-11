@@ -187,14 +187,21 @@ export default function UserProfile() {
 
         {/* Search Button */}
         <TouchableOpacity
-          onPress={() => setSelectedTab("search")} // Set selected tab to "search"
+          onPress={() => {
+            setSelectedTab("search"); // Set selected tab to "search"
+            navigation.navigate("search"); // Navigate to the search screen
+          }}
           style={{
             alignItems: 'center', // Center the icon and text
             justifyContent: 'center',
           }}
         >
           <Image
-            source={require('../../assets/images/search.png')} // Default search icon
+            source={
+              selectedTab === "search"
+                ? require('../../assets/images/Fsearch.png') // Replace with Fsearch.png when selected
+                : require('../../assets/images/search.png') // Default search icon
+            }
             style={{
               width: 24, // Match size from inicio.jsx
               height: 24, // Match size from inicio.jsx

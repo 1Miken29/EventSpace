@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, Animated } from "react-native";
+import { Image, Text, TextInput, TouchableOpacity, View, Animated, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useUser } from "../../hooks/UserContext";
 import VignetteImage from "../../assets/images/viñ.png"; // Importa la imagen
@@ -19,8 +19,8 @@ export default function ChangePassword() {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const alertOpacity = useState(new Animated.Value(0))[0];
-  const [showPasswordRequirements, setShowPasswordRequirements] =useState(false);
-  const [isProfilePressed, setIsProfilePressed] = useState(false); // State to track press
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("profile"); // State to track selected tab
 
   useEffect(() => {
     if (showAlert) {
@@ -304,60 +304,118 @@ export default function ChangePassword() {
           </Animated.View>
         ))}
 
-
-        <View
-            style={{
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            height: 60,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            borderTopColor: '#C4C4C4',
-            borderTopWidth: 1,
-          }}>
-                  <View className="flex-column justify-between ">
-                      <Image
-                      source={require('../../assets/images/home.png')}
-                      style={{ width: 30, height: 30 }}
-                      tintColor="#666876"
-                      />
-                      <Text className="text-[#666876] font-outfit-light text-center text-sm">Inicio</Text>
-                  </View>
-                  <View className="flex-column justify-between ">
-                      <Image
-                      source={require('../../assets/images/search.png')}
-                      style={{ width: 30, height: 30 }}
-                      tintColor="#666876"
-                      />
-                      <Text className="text-[#666876] font-outfit-light text-center text-sm">Buscar</Text>
-                  </View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setIsProfilePressed(true); // Change color on press
-                      setTimeout(() => setIsProfilePressed(false), 200); // Reset color after 200ms
-                      navigation.navigate('user'); // Navigate to user.jsx
-                    }}
-                    className="flex-column justify-between"
-                  >
-                    <Image
-                      source={require('../../assets/images/p.png')}
-                      style={{
-                        width: 30,
-                        height: 30,
-                        tintColor: isProfilePressed ? '#8B5DFF' : '#666876', // Change color dynamically
-                      }}
-                    />
-                    <Text
-                      className={`font-outfit-light text-center text-sm ${
-                        isProfilePressed ? 'text-[#8B5DFF]' : 'text-[#666876]'
-                      }`}
-                    >
-                      Perfil
-                    </Text>
-                  </TouchableOpacity>
-                  </View>
+      {/* Bottom Banner */}
+      <View style={styles.banner}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => {
+            setSelectedTab("home");
+            navigation.navigate("inicio");
+          }}
+        >
+          <Image
+            source={
+              selectedTab === "home"
+                ? require('../../assets/images/Fhome.png')
+                : require('../../assets/images/home.png')
+            }
+            style={[
+              styles.icon,
+              { tintColor: selectedTab === "home" ? "#8B5DFF" : "#666876" },
+            ]}
+          />
+          <Text
+            style={[
+              styles.iconText,
+              { color: selectedTab === "home" ? "#8B5DFF" : "#666876" },
+            ]}
+          >
+            Inicio
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => {
+            setSelectedTab("search");
+            navigation.navigate("Buscar"); // Navigate to the search screen
+          }}
+        >
+          <Image
+            source={
+              selectedTab === "search"
+                ? require('../../assets/images/Fsearch.png')
+                : require('../../assets/images/search.png')
+            }
+            style={[
+              styles.icon,
+              { tintColor: selectedTab === "search" ? "#8B5DFF" : "#666876" },
+            ]}
+          />
+          <Text
+            style={[
+              styles.iconText,
+              { color: selectedTab === "search" ? "#8B5DFF" : "#666876" },
+            ]}
+          >
+            Buscar
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => {
+            setSelectedTab("profile");
+            navigation.navigate("user");
+          }}
+        >
+          <Image
+            source={
+              selectedTab === "profile"
+                ? require('../../assets/images/p.png')
+                : require('../../assets/images/profile.png')
+            }
+            style={[
+              styles.icon,
+              { tintColor: selectedTab === "profile" ? "#8B5DFF" : "#666876" },
+            ]}
+          />
+          <Text
+            style={[
+              styles.iconText,
+              { color: selectedTab === "profile" ? "#8B5DFF" : "#666876" },
+            ]}
+          >
+            Perfil
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  banner: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    height: 60,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5E5',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+  },
+  iconContainer: {
+    alignItems: 'center',
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: '#666876',
+  },
+  iconText: {
+    fontSize: 12,
+    color: '#666876',
+    marginTop: 4,
+  },
+});
