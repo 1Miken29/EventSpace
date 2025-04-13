@@ -205,7 +205,7 @@ export default function registerP1() {
           />
           <Text className="text-black font-outfit text-xl mr-2">+52 </Text>
           <TextInput
-            className={`flex-1 font-outfit text-xl w-full ${errors.numero ? 'border-red-500 text-#EA435' : 'border-[#C4C4C4]'} rounded-xl p-3 font-outfit text-xl ${formData.numero ? 'text-black' : 'text-[#C4C4C4]'}`}
+            className={`flex-1 font-outfit text-xl w-full ${errors.numero ? 'border-red-500 text-#EA435' : 'border-[#C4C4C4]'} rounded-xl px-3 font-outfit text-xl ${formData.numero ? 'text-black' : 'text-[#C4C4C4]'}`}
             placeholder="xxxxxxxxxx"
             placeholderTextColor="#C4C4C4"
             value={formData.numero}

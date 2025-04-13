@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, FlatList, StyleSheet, ScrollView } from 'react-native'; // Import ScrollView
-import Cards from './Cards';
+import Cards from '../(auth)/Cards';
+import { useNavigation } from 'expo-router';
 
 export default function Search() {
+  const navigation = useNavigation()
   const [likedItems, setLikedItems] = useState(Array(12).fill(false));
   const [sortOption, setSortOption] = useState('Relevancia');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -62,7 +64,7 @@ export default function Search() {
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('inicial')} style={styles.backButton}>
             <Image
               source={require('../../assets/images/back.png')}
               style={styles.headerIcon}
@@ -139,55 +141,6 @@ export default function Search() {
           likedItems={likedItems}
         />
       </ScrollView>
-
-      {/* Bottom Banner */}
-      <View style={styles.banner}>
-        <TouchableOpacity
-          style={styles.iconContainer}
-          onPress={() => {
-            navigation.navigate("inicio");
-          }}
-        >
-          <Image
-            source={require('../../assets/images/home.png')}
-            style={[
-              styles.icon,
-              { tintColor: "#666876" }, // Default color for unselected
-            ]}
-          />
-          <Text style={[styles.iconText, { color: "#666876" }]}>Inicio</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.iconContainer}
-          onPress={() => {
-            navigation.navigate("search");
-          }}
-        >
-          <Image
-            source={require('../../assets/images/Fsearch.png')}
-            style={[
-              styles.icon,
-              { tintColor: "#8B5DFF" }, // Highlighted for the current tab
-            ]}
-          />
-          <Text style={[styles.iconText, { color: "#8B5DFF" }]}>Buscar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.iconContainer}
-          onPress={() => {
-            navigation.navigate("user");
-          }}
-        >
-          <Image
-            source={require('../../assets/images/profile.png')}
-            style={[
-              styles.icon,
-              { tintColor: "#666876" }, // Default color for unselected
-            ]}
-          />
-          <Text style={[styles.iconText, { color: "#666876" }]}>Perfil</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
