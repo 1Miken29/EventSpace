@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Cards from './Cards'; // Import the Cards component
-import UpCards from './upCards'; // Import the UpCards component
+import Cards from './Cards'; 
+import UpCards from './upCards'; 
+import CardDetail from './cardDetail'; 
 
-export default function Inicio() {
+export default function inicio() {
   const navigation = useNavigation();
   const user = {
     name: "Adrian Hajdin",
@@ -195,7 +196,7 @@ export default function Inicio() {
         {/* Cards Section */}
         <Cards
           cards={cards}
-          navigation={navigation}
+          navigation={navigation} // Pasa la navegación al componente Cards
           toggleLike={toggleLike}
           likedItems={likedItems}
         />
@@ -207,7 +208,7 @@ export default function Inicio() {
           style={styles.iconContainer}
           onPress={() => {
             setSelectedTab("home");
-            navigation.navigate("Inicio");
+            navigation.navigate("inicio");
           }}
         >
           <Image
@@ -234,7 +235,7 @@ export default function Inicio() {
           style={styles.iconContainer}
           onPress={() => {
             setSelectedTab("search");
-            navigation.navigate("search"); // Navigate to the search screen
+            navigation.navigate("search"); // Updated to match existing route
           }}
         >
           <Image
@@ -261,7 +262,7 @@ export default function Inicio() {
           style={styles.iconContainer}
           onPress={() => {
             setSelectedTab("profile");
-            navigation.navigate("user");
+            navigation.navigate("User"); 
           }}
         >
           <Image
@@ -316,3 +317,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 });
+
+<Stack.Navigator>
+  {/* Otras pantallas */}
+  <Stack.Screen
+    name="cardDetail"
+    component={CardDetail} // Componente que muestra los detalles de la tarjeta
+    options={{ title: 'Detalle del Salón' }} // Opciones de la pantalla
+  />
+</Stack.Navigator>

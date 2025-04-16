@@ -3,6 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet 
 import { useNavigation } from '@react-navigation/native';
 import Cards from '../(auth)/Cards'; // Import the Cards component
 import UpCards from '../(auth)/upCards'; // Import the UpCards component
+import CardDetail from './cardDetail'; 
 
 export default function Inicial() {
   const navigation = useNavigation();
@@ -165,7 +166,7 @@ export default function Inicial() {
         {/* Cards Section */}
         <Cards
           cards={cards}
-          navigation={navigation}
+          navigation={navigation} // Pasa la navegación al componente Cards
           toggleLike={toggleLike}
           likedItems={likedItems}
         />

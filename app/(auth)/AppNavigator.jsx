@@ -1,7 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Inicio from './inicio';
-import CardDetail from './cardDetail'; // Correct the import path for CardDetail
+import CardDetail from './cardDetail';
+import formUser from './formUser';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,12 +12,17 @@ export default function AppNavigator() {
       <Stack.Screen 
         name="inicio" 
         component={Inicio} 
-        options={{ headerShown: false }} // Hide header for Inicio screen
+        options={{ headerShown: false }}
       />
       <Stack.Screen 
         name="cardDetail" 
         component={CardDetail} 
-        options={{ title: 'Detalle de la Tarjeta' }} // Ensure the name matches exactly
+        options={{ title: 'Detalle de la Tarjeta' }}
+      />
+      <Stack.Screen 
+        name="formUser" 
+        component={formUser} 
+        options={{ title: 'User Profile' }}
       />
     </Stack.Navigator>
   );

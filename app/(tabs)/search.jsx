@@ -1,30 +1,41 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, FlatList, StyleSheet, ScrollView } from 'react-native'; // Import ScrollView
+import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Modal, StyleSheet } from 'react-native';
 import Cards from '../(auth)/Cards';
-import { useNavigation } from 'expo-router';
+import Filtros from '../(auth)/filtros'; // Importa el componente Filtros
+import Ing from '../(auth)/Ing'; // Importa el componente Ing
+import { useNavigation } from '@react-navigation/native';
 
 export default function Search() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
+  // Hooks de estado
   const [likedItems, setLikedItems] = useState(Array(12).fill(false));
   const [sortOption, setSortOption] = useState('Relevancia');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  const [searchText, setSearchText] = useState(''); // Estado para el texto de búsqueda
 
+  // Datos de las tarjetas
   const cards = Array.from({ length: 8 }, (_, i) => ({
     id: i + 1,
     image: require('../../assets/images/s1.jpg'),
-    title: 'Nombre salón',
-    location: 'ubicación',
-    price: '$precio',
+    title: `Nombre salón ${i + 1}`,
+    location: `Ubicación ${i + 1}`,
+    price: `$${(i + 1) * 1000}`,
     rating: 4.8,
   }));
 
+  // Filtrar las tarjetas según el texto de búsqueda
+  const filteredCards = cards.filter((card) =>
+    card.title.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  // Funciones
   const toggleLike = (index) => {
     const updatedLikes = [...likedItems];
     updatedLikes[index] = !updatedLikes[index];
     setLikedItems(updatedLikes);
   };
-
-  const sortOptions = ['Relevancia', 'Más Baratos', 'Más Caros', 'Más recientes'];
 
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -34,30 +45,6 @@ export default function Search() {
     setSortOption(option);
     setIsDropdownVisible(false);
   };
-
-  const renderCard = ({ item }) => (
-    <View style={styles.card}>
-      <Image source={item.image} style={styles.cardImage} />
-      <View style={styles.ratingBadge}>
-        <Image
-          source={require('../../assets/images/star.png')}
-          style={styles.starIcon}
-        />
-        <Text style={styles.ratingText}>{item.rating}</Text>
-      </View>
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardLocation}>{item.location}</Text>
-        <Text style={styles.cardPrice}>{item.price}</Text>
-      </View>
-      <TouchableOpacity style={styles.heartContainer}>
-        <Image
-          source={require('../../assets/images/heart.png')}
-          style={styles.heartIcon}
-        />
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -89,8 +76,10 @@ export default function Search() {
             style={styles.searchInput}
             placeholder="Buscar..."
             placeholderTextColor="#C4C4C4"
+            value={searchText}
+            onChangeText={(text) => setSearchText(text)} // Actualiza el texto de búsqueda
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsFilterModalVisible(true)}>
             <Image
               source={require('../../assets/images/filtro.png')}
               style={styles.filterIcon}
@@ -98,49 +87,85 @@ export default function Search() {
           </TouchableOpacity>
         </View>
 
-        {/* Recomendados and Sort */}
-        <View style={styles.recommendations}>
-          <Text style={styles.recommendationsText}>Recomendados</Text>
-          <TouchableOpacity onPress={toggleDropdown} style={styles.sortButton}>
-            <View style={styles.sortButtonContent}>
-              <Text style={styles.sortText}>Ordenar por:</Text>
-              <Text style={styles.sortOption}>{sortOption}</Text>
-              <Image
-                source={require('../../assets/images/abajo.png')}
-                style={styles.sortIcon}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
+        {/* Mostrar encabezado dinámico */}
+        {searchText.length > 0 ? (
+          <View style={styles.resultsHeader}>
+            <Text style={styles.resultsText}>
+              {filteredCards.length} {filteredCards.length === 1 ? 'salón encontrado' : 'salones encontrados'}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.recommendations}>
+            <Text style={styles.recommendationsText}>Recomendados</Text>
+            <TouchableOpacity onPress={toggleDropdown} style={styles.sortButton}>
+              <View style={styles.sortButtonContent}>
+                <Text style={styles.sortText}>Ordenar por:</Text>
+                <Text style={styles.sortOption}>{sortOption}</Text>
+                <Image
+                  source={require('../../assets/images/abajo.png')}
+                  style={styles.sortIcon}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
 
-        {/* Dropdown */}
+        {/* Dropdown Menu */}
         {isDropdownVisible && (
-          <View style={[styles.dropdown, { position: 'absolute' }]}>
-            {sortOptions.map((option) => (
+          <View style={[styles.dropdownMenu, { zIndex: 10 }]}>
+            {['Relevancia', 'Más baratos', 'Más caros', 'Más recientes'].map((option, index) => (
               <TouchableOpacity
-                key={option}
+                key={index}
+                style={styles.dropdownItem}
                 onPress={() => handleSortOption(option)}
-                style={styles.dropdownOption}
               >
-                <Text style={styles.dropdownText}>{option}</Text>
-                {option === sortOption && (
-                  <Image
-                    source={require('../../assets/images/ok.png')}
-                    style={styles.checkIcon}
-                  />
-                )}
+                <View style={styles.dropdownItemContent}>
+                  <Text style={styles.dropdownText}>{option}</Text>
+                  {sortOption === option && (
+                    <Image
+                      source={require('../../assets/images/ok.png')}
+                      style={styles.okIcon}
+                    />
+                  )}
+                </View>
               </TouchableOpacity>
             ))}
           </View>
         )}
 
-        <Cards
-          cards={cards}
-          navigation={navigation}
-          toggleLike={toggleLike}
-          likedItems={likedItems}
-        />
+        {/* Mostrar tarjetas o mensaje de "No se han encontrado salones" */}
+        {searchText.length > 0 ? (
+          filteredCards.length > 0 ? (
+            <Ing
+              cards={filteredCards} // Pasa las tarjetas filtradas
+              toggleLike={toggleLike} // Pasa la función para manejar los likes
+              likedItems={likedItems} // Pasa los elementos con like
+              isSearchMode={true} // Activa el modo búsqueda
+            />
+          ) : (
+            <View style={styles.noResultsContainer}>
+              <Text style={styles.noResultsText}>No se han encontrado salones</Text>
+            </View>
+          )
+        ) : (
+          <Cards
+            cards={cards} // Muestra todas las tarjetas si no hay búsqueda
+            navigation={navigation}
+            toggleLike={toggleLike}
+            likedItems={likedItems}
+          />
+        )}
       </ScrollView>
+
+      {/* Modal de Filtros */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isFilterModalVisible}
+        onRequestClose={() => setIsFilterModalVisible(false)}
+      >
+        <Filtros onClose={() => setIsFilterModalVisible(false)} />
+      </Modal>
     </View>
   );
 }
@@ -155,13 +180,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 35, 
+    marginTop: 35,
   },
   backButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#8B5DFF1A', // Circle background color
+    backgroundColor: '#8B5DFF1A',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -208,28 +233,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#191D31',
-    
   },
   sortButton: {
     height: 40,
     paddingHorizontal: 15,
-    justifyContent: 'center', // Center content vertically
+    justifyContent: 'center',
     borderColor: '#C4C4C4',
     borderWidth: 1,
   },
   sortButtonContent: {
     flexDirection: 'row',
-    alignItems: 'center', // Align items vertically in the center
+    alignItems: 'center',
   },
   sortText: {
     fontSize: 14,
-    fontFamily: 'Outfit',
     color: '#666876',
   },
   sortOption: {
     fontSize: 14,
     fontWeight: 'bold',
-    fontFamily: 'Outfit',
     color: '#191D31',
     marginLeft: 4,
   },
@@ -238,127 +260,54 @@ const styles = StyleSheet.create({
     height: 16,
     marginLeft: 8,
   },
-  dropdown: {
+  dropdownMenu: {
+    position: 'absolute',
+    top: 200,
+    width: 180,
+    right: 0,
     backgroundColor: 'white',
-    elevation: 5,
-    marginTop: 8,
-    padding: 8,
-    width: '40%',
-    height: 'auto',
+    border: 1,
     borderColor: '#C4C4C4',
-    borderWidth: 1,
-    top: 180,
-    right: 16,
-    zIndex: 3,
+    padding: 10,
+    elevation: 5,
+    zIndex: 10,
   },
-  dropdownOption: {
+  dropdownItem: {
     paddingVertical: 8,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  dropdownItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
   dropdownText: {
     fontSize: 14,
-    fontFamily: 'Outfit',
-    color: '#191D31',
+    color: '#666876',
     flex: 1,
   },
-  checkIcon: {
+  okIcon: {
     width: 16,
     height: 16,
+    marginRight: 5,
   },
-  cardsContainer: {
-    marginTop: 16,
-    paddingBottom: 80,
+  resultsHeader: {
+    marginTop: 22,
+    marginBottom: 10,
   },
-  card: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    margin: 8,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    overflow: 'hidden',
-  },
-  cardImage: {
-    width: '100%',
-    height: 120,
-  },
-  ratingBadge: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  starIcon: {
-    width: 12,
-    height: 12,
-    marginRight: 4,
-    tintColor: '#FFD700',
-  },
-  ratingText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#8B5DFF',
-  },
-  cardContent: {
-    padding: 8,
-  },
-  cardTitle: {
-    fontSize: 14,
+  resultsText: {
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#191D31',
   },
-  cardLocation: {
-    fontSize: 12,
-    color: '#666',
-  },
-  cardPrice: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#8B5DFF',
-  },
-  heartContainer: {
-    position: 'absolute',
-    bottom: 8,
-    right: 8,
-  },
-  heartIcon: {
-    width: 20,
-    height: 20,
-    tintColor: 'gray',
-  },
-  banner: {
-    flexDirection: 'row',
-    justifyContent: 'space-around', // Distribute items evenly
+  noResultsContainer: {
+    marginTop: 300,
     alignItems: 'center',
-    backgroundColor: 'white',
-    height: 60, // Fixed height for consistency
-    borderTopWidth: 1,
-    borderTopColor: '#E5E5E5',
-    position: 'absolute', // Fix the banner at the bottom
-    bottom: 0,
-    width: '100%',
-    zIndex: 1000, // Ensure it stays above other content
   },
-  iconContainer: {
-    alignItems: 'center', // Center icons and text vertically
-    justifyContent: 'center',
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  iconText: {
-    fontSize: 12,
-    marginTop: 4,
-    textAlign: 'center', // Center text horizontally
+  noResultsText: {
+    fontSize: 22,
+    color: 'black',
   },
 });
