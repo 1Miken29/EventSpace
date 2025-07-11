@@ -33,7 +33,7 @@ interface Comentario {
   };
 }
 
-type EstadoReserva = "Pendiente" | "Aceptado" | "Cancelado";
+export type EstadoReserva = "Pendiente" | "Aceptado" | "Rechazado";
 interface Reserva {
   id: number;
   rango: string;
