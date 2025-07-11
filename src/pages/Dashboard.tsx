@@ -160,8 +160,8 @@ export default function Dashboard() {
     });
 
     // Extraer horas de apertura y cierre
-    const [horaAp, minAp] = horaApertura.split(':').map(Number);
-    const [horaCi, minCi] = horaCierre.split(':').map(Number);
+    const [horaAp] = horaApertura.split(':').map(Number);
+    const [horaCi] = horaCierre.split(':').map(Number);
     
     // Generar horarios de hora en hora desde apertura hasta cierre
     for (let hora = horaAp; hora <= horaCi; hora++) {
