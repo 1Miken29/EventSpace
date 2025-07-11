@@ -15,7 +15,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useNavigate } from "react-router";
 import { useSalon } from "@/hooks/SalonContext";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { useState } from "react";
@@ -25,19 +24,23 @@ export function TeamSwitcher({
   teams,
 }: {
   teams: {
-    id: number;
-    nombre: string;
-    descripcion: string;
-    capacidadMin: number;
+    id?: number;
+    id_user?: number;
+    nombre?: string;
+    descripcion?: string;
+    capacidadMin?: number;
     capacidadMax?: number;
-    horarioApertura: string;
-    horarioCierre: string;
-    publicado: boolean;
-    logo: React.ElementType;
-    plan: string;
+    horarioApertura?: string;
+    horarioCierre?: string;
+    publicado?: boolean;
+    logo?: React.ElementType;
+    plan?: string;
+    precio?: number;
+    bloqueHora?: number;
+    precioHoraExtra?: number;
+    fileName?: string[];
   }[];
 }) {
-  const navigate = useNavigate();
 
   const { activeSalon, setActiveSalon } = useSalon();
   const [openSheet, setOpenSheet] = useState(false);
@@ -115,7 +118,7 @@ export function TeamSwitcher({
         </SidebarMenuItem>
       </SidebarMenu>
       <SheetContent className="min-w-1/2">
-        <AddRoom />
+        <AddRoom modalClose={() => {}}/>
       </SheetContent>
     </Sheet>
   );

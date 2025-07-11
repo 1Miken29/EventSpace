@@ -18,7 +18,7 @@ export default function ForgotPassword() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const { data, error } = await client.auth.resetPasswordForEmail(email, {
+    const { error } = await client.auth.resetPasswordForEmail(email, {
       redirectTo: "http://localhost:5173/reset-password",
     });
 

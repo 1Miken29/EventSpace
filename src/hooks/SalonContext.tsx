@@ -41,6 +41,9 @@ interface Reserva {
   cliente: Usuario;
   descripcion: string;
   costo: number;
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
 }
 
 interface SalonContextType {

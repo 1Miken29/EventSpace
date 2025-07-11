@@ -36,7 +36,7 @@ export default function AddRoom({
     setSalonData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const uploadImagesToSupabase = async (folderName: string) => {
     const uploadedFileNames: string[] = [];
@@ -74,7 +74,7 @@ export default function AddRoom({
 
     setSalonData((prev) => ({
       ...prev,
-      fileName: [...prev.fileName, ...fileArray.map((f) => f.name)],
+      fileName: [...prev.fileName ?? [], ...fileArray.map((f) => f.name)],
     }));
   };
 

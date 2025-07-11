@@ -35,7 +35,7 @@ export default function EditProfile({
   const [selectedImage, setSelectedImage] = useState(loadImg(user));
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
