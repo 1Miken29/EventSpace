@@ -35,15 +35,15 @@ export default function App() {
         <div className="my-auto">
           <img
             className="absolute right-10 top-1/5"
-            src="src/assets/Rectangle 2.png"
+            src="https://rrfdtzhrxzvwabpnhzat.supabase.co/storage/v1/object/public/salones//Rectangle%202.png"
           />
           <img
             className="absolute right-5 top-1/3 z-10"
-            src="src/assets/Rectangle 1.png"
+            src="https://rrfdtzhrxzvwabpnhzat.supabase.co/storage/v1/object/public/salones//Rectangle%201.png"
           />
           <img
             className="absolute right-10 top-1/2"
-            src="src/assets/Rectangle 3.png"
+            src="https://rrfdtzhrxzvwabpnhzat.supabase.co/storage/v1/object/public/salones//Rectangle%203.png"
           />
         </div>
       </div>
